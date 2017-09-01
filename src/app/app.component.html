@@ -1,0 +1,67 @@
+<h1>{{message}}</h1>
+<hr>
+<input type="button" value="Add" class="btn bnt-default" (click)="addEmployee()"/>
+<div style="overflow: auto">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <td>Id</td>
+        <td>No</td>
+        <td>Name</td>
+        <td>Salary</td>
+        <td>DeptName</td>
+        <td>Designation</td>
+        <td></td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees; let i=idx">
+        <ng-template [ngTempalteOutlet]="loadTemplate(emp)" [ngOutletContext]="{ $implicit: emp, idx: i }"></ng-template>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div>{{statusMessage}}</div>
+
+<ng-template #readOnlyTemplate let-emp>
+  <td>{{emp.Id}}</td>
+  <td>{{emp.No}}</td>
+  <td>{{emp.Name}}</td>
+  <td>{{emp.Salary}}</td>
+  <td>{{emp.DeptName}}</td>
+  <td>{{emp.Designation}}</td>
+  <td>
+    <input type="button" value="Edit" class="btn btn-default" (click)="editEmployee(emp)"/>
+  </td>
+  <td>
+    <input type="button" value="Delete" class="btn btn-danger" (click)="deleteEmployee(emp)"/>
+  </td>
+</ng-template>
+
+<ng-tempalte #editTemplate>
+  <td>
+    <input type="text" [(ngModel)]="selectedEmployee.Id" readonly disabled />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="selectedEmployee.No" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="selectedEmployee.Name" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="selectedEmployee.Salary" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="selectedEmployee.DeptName" />
+  </td>
+  <td>
+    <input type="text" [(ngModel)]="selectedEmployee.Designation" />
+  </td>
+  <td>
+    <input type="button" value="Save" (click)="saveEmployee()" class="btn btn-success" />
+  </td>
+  <td>
+    <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+  </td>
+</ng-tempalte>
