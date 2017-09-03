@@ -1,6 +1,6 @@
 <h1>{{message}}</h1>
 <hr>
-<input type="button" value="Add" class="btn bnt-default" (click)="addEmployee()"/>
+<input type="button" value="Add" class="btn bnt-default" (click)="addTask()"/>
 <div style="overflow: auto">
   <table class="table table-bordered table-striped">
     <thead>
@@ -16,52 +16,71 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let emp of employees; let i=idx">
-        <ng-template [ngTempalteOutlet]="loadTemplate(emp)" [ngOutletContext]="{ $implicit: emp, idx: i }"></ng-template>
-      </tr>
+        <tr *ngFor="let task of tasks; let i=idx">
+        <!--     <td>{{task.Id}}</td>
+            <td>{{task.No}}</td>
+            <td>{{task.Name}}</td>
+            <td>{{task.Salary}}</td>
+            <td>{{task.DeptName}}</td>
+            <td>{{task.Designation}}</td>
+            <td>
+              <input type="button" value="Edit" class="btn btn-default" (click)="editTask(task)"/>
+            </td>
+            <td>
+              <input type="button" value="Delete" class="btn btn-danger" (click)="deleteTask(task)"/>
+            </td> -->
+          <ng-template *ngTemplateOutlet="loadTemplate(task); context: {$implicit: task, idx: i}"></ng-template>
+          <!-- [ngOutletContext]="{ $implicit: task, idx: i }" -->
+        </tr>
     </tbody>
   </table>
 </div>
 <div>{{statusMessage}}</div>
 
-<ng-template #readOnlyTemplate let-emp>
-  <td>{{emp.Id}}</td>
-  <td>{{emp.No}}</td>
-  <td>{{emp.Name}}</td>
-  <td>{{emp.Salary}}</td>
-  <td>{{emp.DeptName}}</td>
-  <td>{{emp.Designation}}</td>
+<ng-template #readOnlyTemplate let-task>
+  <td>{{task.Id}}</td>
+  <td>{{task.No}}</td>
+  <td>{{task.Name}}</td>
+  <td>{{task.Salary}}</td>
+  <td>{{task.DeptName}}</td>
+  <td>{{task.Designation}}</td> 
+  <!-- <td>task.Id}}</td>
+  <td>task.No}}</td>
+  <td>task.Name}}</td>
+  <td>task.Salary}}</td>
+  <td>task.DeptName}}</td>
+  <td>task.Designation}}</td> -->
   <td>
-    <input type="button" value="Edit" class="btn btn-default" (click)="editEmployee(emp)"/>
+    <input type="button" value="Edit" class="btn btn-default" (click)="editTask(task)"/>
   </td>
   <td>
-    <input type="button" value="Delete" class="btn btn-danger" (click)="deleteEmployee(emp)"/>
+    <input type="button" value="Delete" class="btn btn-danger" (click)="deleteTask(task)"/>
   </td>
 </ng-template>
 
-<ng-tempalte #editTemplate>
-  <td>
-    <input type="text" [(ngModel)]="selectedEmployee.Id" readonly disabled />
-  </td>
-  <td>
-    <input type="text" [(ngModel)]="selectedEmployee.No" />
-  </td>
-  <td>
-    <input type="text" [(ngModel)]="selectedEmployee.Name" />
-  </td>
-  <td>
-    <input type="text" [(ngModel)]="selectedEmployee.Salary" />
-  </td>
-  <td>
-    <input type="text" [(ngModel)]="selectedEmployee.DeptName" />
-  </td>
-  <td>
-    <input type="text" [(ngModel)]="selectedEmployee.Designation" />
-  </td>
-  <td>
-    <input type="button" value="Save" (click)="saveEmployee()" class="btn btn-success" />
-  </td>
-  <td>
-    <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
-  </td>
-</ng-tempalte>
+<ng-template #editTemplate>
+    <td>
+      <input type="text" [(ngModel)]="selectedTask.Id" readonly disabled />
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="selectedTask.No" />
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="selectedTask.Name" />
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="selectedTask.Salary" />
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="selectedTask.DeptName" />
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="selectedTask.Designation" />
+    </td>
+    <td>
+      <input type="button" value="Save" (click)="saveTask()" class="btn btn-success" />
+    </td>
+    <td>
+      <input type="button" value="Cancel" (click)="cancel()" class="btn btn-warning" />
+    </td>
+  </ng-template>

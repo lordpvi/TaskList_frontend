@@ -1,38 +1,38 @@
 // import dependences
 import {Injectable} from '@angular/core';
 import {Http, Response, RequestOptions, Headers} from '@angular/http';
-import {Employee} from './task/employee.model';
+import {Task} from './task/task.model';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 
 // service class
 @Injectable()
-export class EmployeeService {
-    private baseUrl: string = 'http://localhost:9000/employees';
+export class TaskService {
+    private baseUrl: string = 'http://localhost:9000/tasks';
 
     constructor(private http: Http) { }
 
-    getEmployees(): Observable<Response> {
+    getTasks(): Observable<Response> {
         return this.http.get(this.baseUrl);
     }
 
-    addEmployee(emp: Employee): Observable<Response> {
+    addTask(task: Task): Observable<Response> {
         let header = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: header});
         return this
             .http
-            .post(this.baseUrl, JSON.stringify(emp), options);
+            .post(this.baseUrl, JSON.stringify(task), options);
     }
 
-    updateEmployee(id: string, emp: Employee): Observable<Response> {
+    updateTask(id: string, task: Task): Observable<Response> {
         let header = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: header});
         return this
             .http
-            .put(this.baseUrl + '/' + id, JSON.stringify(emp), options);
+            .put(this.baseUrl + '/' + id, JSON.stringify(task), options);
     }
 
-    deleteEmployee(id: string): Observable<Response> {
+    deleteTask(id: string): Observable<Response> {
         return this
             .http
             .delete(this.baseUrl + '/' + id);
