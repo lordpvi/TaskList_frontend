@@ -1,9 +1,9 @@
 export class Task {
     constructor(
-        public Id: string,
-        public No: number,
-        public Name: string,
-        public Salary: number,
-        public DeptName: string,
-        public Designation: string) {}
+        public id: number,
+        public number: string,
+        public description: string,
+        public status: string,
+        public dateEnd: Date,
+        public createTime: Date) {}
 }

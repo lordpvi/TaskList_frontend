@@ -5,32 +5,19 @@
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
-        <td>Id</td>
-        <td>No</td>
-        <td>Name</td>
-        <td>Salary</td>
-        <td>DeptName</td>
-        <td>Designation</td>
+        <td>ИД</td>
+        <td>Номер</td>
+        <td>Описание</td>
+        <td>Статус</td>
+        <td>Дата окончания</td>
+        <td>Дата создания</td>
         <td></td>
         <td></td>
       </tr>
     </thead>
     <tbody>
         <tr *ngFor="let task of tasks; let i=idx">
-        <!--     <td>{{task.Id}}</td>
-            <td>{{task.No}}</td>
-            <td>{{task.Name}}</td>
-            <td>{{task.Salary}}</td>
-            <td>{{task.DeptName}}</td>
-            <td>{{task.Designation}}</td>
-            <td>
-              <input type="button" value="Edit" class="btn btn-default" (click)="editTask(task)"/>
-            </td>
-            <td>
-              <input type="button" value="Delete" class="btn btn-danger" (click)="deleteTask(task)"/>
-            </td> -->
           <ng-template *ngTemplateOutlet="loadTemplate(task); context: {$implicit: task, idx: i}"></ng-template>
-          <!-- [ngOutletContext]="{ $implicit: task, idx: i }" -->
         </tr>
     </tbody>
   </table>
@@ -38,18 +25,12 @@
 <div>{{statusMessage}}</div>
 
 <ng-template #readOnlyTemplate let-task>
-  <td>{{task.Id}}</td>
-  <td>{{task.No}}</td>
-  <td>{{task.Name}}</td>
-  <td>{{task.Salary}}</td>
-  <td>{{task.DeptName}}</td>
-  <td>{{task.Designation}}</td> 
-  <!-- <td>task.Id}}</td>
-  <td>task.No}}</td>
-  <td>task.Name}}</td>
-  <td>task.Salary}}</td>
-  <td>task.DeptName}}</td>
-  <td>task.Designation}}</td> -->
+  <td>{{task.id}}</td>
+  <td>{{task.number}}</td>
+  <td>{{task.description}}</td>
+  <td>{{task.status}}</td>
+  <td>{{task.dateEnd}}</td>
+  <td>{{task.createTime}}</td> 
   <td>
     <input type="button" value="Edit" class="btn btn-default" (click)="editTask(task)"/>
   </td>
@@ -60,22 +41,22 @@
 
 <ng-template #editTemplate>
     <td>
-      <input type="text" [(ngModel)]="selectedTask.Id" readonly disabled />
+      <input type="text" [(ngModel)]="selectedTask.id" readonly disabled />
     </td>
     <td>
-      <input type="text" [(ngModel)]="selectedTask.No" />
+      <input type="text" [(ngModel)]="selectedTask.number" />
     </td>
     <td>
-      <input type="text" [(ngModel)]="selectedTask.Name" />
+      <input type="text" [(ngModel)]="selectedTask.description" />
     </td>
     <td>
-      <input type="text" [(ngModel)]="selectedTask.Salary" />
+      <input type="text" [(ngModel)]="selectedTask.status" />
     </td>
     <td>
-      <input type="text" [(ngModel)]="selectedTask.DeptName" />
+      <input type="text" [(ngModel)]="selectedTask.dateEnd" />
     </td>
     <td>
-      <input type="text" [(ngModel)]="selectedTask.Designation" />
+      <input type="text" [(ngModel)]="selectedTask.createTime" />
     </td>
     <td>
       <input type="button" value="Save" (click)="saveTask()" class="btn btn-success" />

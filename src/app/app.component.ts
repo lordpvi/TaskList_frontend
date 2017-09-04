@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { TaskService } from './app.service';
+import { TaskService, TaskFilter } from './app.service';
 import { Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Task } from "./task/task.model";
+import { Task } from './task/task.model';
 import 'rxjs/Rx';
 
 @Component({
@@ -13,13 +13,13 @@ import 'rxjs/Rx';
 export class AppComponent implements OnInit {
 
   title = 'app';
-  message : string;
+  message: string;
   tasks: Array<Task>;
   task: Task;
   selectedTask: Task;
   isNewRecord: boolean;
   statusMessage: string;
-  
+
   // Template Ref types
   @ViewChild('readOnlyTemplate') readOnlyTemplate: TemplateRef<any>;
   @ViewChild('editTemplate') editTemplate: TemplateRef<any>;
@@ -30,28 +30,29 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadTasks()
+    this.loadTasks();
   }
 
   private loadTasks() {
-    // this
-    //   .taskService
-    //   .getTasks()
-    //   .subscribe((resp: Response) => {
-    //     this.tasks = resp.json();
-    //   });
+    this
+      .taskService
+      .getTasks(new TaskFilter(null, null, null, null, null, null))
+      .subscribe((resp: Response) => {
+        this.tasks = resp.json();
+      });
 
-    this.tasks = [
-      { Id: '1', No: 1, Name: 'Task 1', Salary: 1, DeptName: 'DeptName 1', Designation: 'Designation 1'},
-      { Id: '2', No: 2, Name: 'Task 2', Salary: 2, DeptName: 'DeptName 2', Designation: 'Designation 2'},
-      { Id: '3', No: 3, Name: 'Task 3', Salary: 3, DeptName: 'DeptName 3', Designation: 'Designation 3'}
-    ];  
+    // this.tasks = [
+    //   { id: 1, number: '1', description: 'Task 1', status: 'NEW', dateEnd: new Date(Date.now()), createTime: new Date(Date.now()) },
+    //   { id: 2, number: '2', description: 'Task 2', status: 'NEW', dateEnd: new Date(Date.now()), createTime: new Date(Date.now()) },
+    //   { id: 3, number: '3', description: 'Task 3', status: 'NEW', dateEnd: new Date(Date.now()), createTime: new Date(Date.now()) }
+    // ];
   }
 
-  
+
   public addTask() {
-    this.selectedTask = new Task('', 0, '', 0, '', '');
+    this.selectedTask = new Task(0, '', '', 'OPEN', new Date(Date.now()), new Date(Date.now()));
     this.tasks.push(this.selectedTask);
+    this.isNewRecord = true;
   }
 
   public editTask(task: Task) {
@@ -68,7 +69,7 @@ export class AppComponent implements OnInit {
       this.isNewRecord = false;
       this.selectedTask = null;
     } else {
-      this.taskService.updateTask(this.selectedTask.Id, this.selectedTask).subscribe((responce: Response) => {
+      this.taskService.updateTask(this.selectedTask.id, this.selectedTask).subscribe((responce: Response) => {
         this.statusMessage = 'Record updated successfully',
         this.loadTasks();
       });
@@ -81,14 +82,14 @@ export class AppComponent implements OnInit {
   }
 
   public deleteTask(task: Task) {
-    this.taskService.deleteTask(task.Id).subscribe((response: Response) => {
+    this.taskService.deleteTask(task.id).subscribe((response: Response) => {
       this.statusMessage = 'Record deleted successfully',
       this.loadTasks();
     });
   }
 
   public loadTemplate(task: Task) {
-    if (this.selectedTask && this.selectedTask.No === task.No) {
+    if (this.selectedTask && this.selectedTask.number === task.number) {
       return this.editTemplate;
     } else {
       return this.readOnlyTemplate;
